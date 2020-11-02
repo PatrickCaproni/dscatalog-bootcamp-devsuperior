@@ -15,7 +15,8 @@ type LoginData = {
     password: string;
 }
 
-const BASE_URL = 'http://localhost:8081'
+// const BASE_URL = 'http://localhost:8081'
+const BASE_URL = 'https://patrick-dscatalog.herokuapp.com'
 
 export const makeRequest = ({ method = 'GET', url, data, params, headers }:RequestParams) => {
     return axios({
