@@ -19,13 +19,13 @@ const Card = () => {
                     </h3>
                     <ProductPrice price={2499.99}/>
                     <div>
-                    <span className="badge badge-pill badge-secondary">
+                    <span className="badge badge-pill badge-secondary mr-2">
                         categoria 1
                     </span>
-                    <span className="badge badge-pill badge-secondary">
+                    <span className="badge badge-pill badge-secondary mr-2">
                         categoria 2
                     </span>
-                    <span className="badge badge-pill badge-secondary">
+                    <span className="badge badge-pill badge-secondary mr-2">
                         categoria 3
                     </span>
                 </div>
