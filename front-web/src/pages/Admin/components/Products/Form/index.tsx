@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import Select from 'react-select';
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import BaseForm from '../../BaseForm';
 import './styles.scss';
 import { useHistory, useParams } from 'react-router-dom';
+import { Category } from 'core/types/Product';
 
 type FormState = {
     name: string;
@@ -21,6 +23,8 @@ const Form = () => {
     const { register, handleSubmit, errors, setValue } = useForm<FormState>();
     const history = useHistory();
     const { productId } = useParams<ParamsType>();
+    const [isLoadingCategories, setisLoadingCategories] = useState(false);
+    const [categories, setCategories] = useState<Category[]>([]);
     const isEditing = productId !== 'create';
     const formTitle = isEditing ? 'Editar Produto' : 'Cadastrar um Produto';
 
@@ -35,6 +39,13 @@ const Form = () => {
             })
         }
     }, [productId, isEditing, setValue]);
+
+    useEffect(() => {
+        setisLoadingCategories(true);
+        makeRequest({ url: '/categories' })
+            .then(response => setCategories(response.data))
+            .finally(() => setisLoadingCategories(false))
+    }, []);
 
     const onSubmit = (data: FormState) => {
         makePrivateRequest({
@@ -73,6 +84,16 @@ const Form = () => {
                                     {errors.name.message}
                                 </div>
                             )}
+                        </div>
+                        <div className="margin-bottom-30">
+                            <Select
+                             options={categories}
+                             getOptionLabel={(option: Category) => option.name}
+                             getOptionValue={(option: Category) => String(option.id)}
+                             classNamePrefix="categories-select"
+                             placeholder="Categoria"
+                             isMulti
+                             />
                         </div>
                         <div className="margin-bottom-30">
                             <input
